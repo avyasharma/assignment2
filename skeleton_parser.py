@@ -74,7 +74,8 @@ item in the data set. Your job is to extend this functionality to create all
 of the necessary SQL tables for your database.
 """
 def parseJson(json_file):
-    with open(json_file, 'r') as f, open("item.dat", "w") as item_f, open("bid.dat", "w") as bid_f, open("user.dat", "w") as user_f, open("category.dat", "w") as cat_f:
+    
+    with open(json_file, 'r') as f, open("item.dat", "a") as item_f, open("bid.dat", "a") as bid_f, open("user.dat", "a") as user_f, open("category.dat", "a") as cat_f:
         items = loads(f.read())['Items'] # creates a Python dictionary of Items for the supplied json file'
         for item in items:
             """a
@@ -84,15 +85,22 @@ def parseJson(json_file):
             """
             
             # loading Item data into items.dat
+            buy_price = "";
+            try:
+                buy_price = transformDollar(item["Buy_price"])
+            except KeyError:
+                buy_price = "Null"
+            
             item_f.write(item["ItemID"] + "|" 
                          + item["Name"] + "|" 
                          + transformDollar(item["Currently"]) + "|" 
-                         + transformDollar(item["First_Bid"]) + "|" 
+                         + transformDollar(item["First_Bid"]) + "|"
+                         + buy_price + "|" 
                          + item["Number_of_Bids"] + "|" 
                          + transformDttm(item["Started"]) + "|" 
                          + transformDttm(item["Ends"]) + "|" 
-                         + item["Seller"]["UserID"] 
-                         + "|" + str(item["Description"]) + "|" 
+                         + item["Seller"]["UserID"] + "|" 
+                         + str(item["Description"]) + "|" 
                          + "\n")
             
             # loading Seller data into user.dat
