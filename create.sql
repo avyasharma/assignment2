@@ -4,26 +4,27 @@ drop table if exists Category;
 drop table if exists Bid;
 
 create table Item(itemID INTEGER PRIMARY KEY, 
-                  name CHAR(30), 
-                  currently REAL, 
+                  name CHAR(500) NOT NULL, 
+                  currently REAL NOT NULL, 
                   buy_price REAL, 
-                  first_bid REAL, 
-                  number_of_bids INTEGER, 
-                  started DATETIME,
-                  ends DATETIME,
-                  seller CHAR(30), 
-                  description TExT,
+                  first_bid REAL NOT NULL, 
+                  number_of_bids INTEGER NOT NULL, 
+                  started DATETIME NOT NULL,
+                  ends DATETIME NOT NULL,
+                  seller CHAR(500) NOT NULL, 
+                  description TEXT,
                   FOREIGN KEY (seller) REFERENCES User);
 create table User(userID STRING PRIMARY KEY, 
-                  rating REAL, 
-                  location CHAR(30), 
-                  country CHAR(30));
-create table Category(itemID INTEGER, 
-                      category CHAR(30), 
-                      FOREIGN KEY (itemID) REFERENCES Item);
-create table Bid(itemID INTEGER, 
-                 bidder STRING, 
-                 time DATETIME, 
-                 amount REAL, 
+                  rating REAL NOT NULL, 
+                  location CHAR(500), 
+                  country CHAR(500));
+create table Category(itemID INTEGER NOT NULL, 
+                      category CHAR(500) NOT NULL, 
+                      FOREIGN KEY (itemID) REFERENCES Item, 
+                      PRIMARY KEY(itemID, category));
+create table Bid(bidder STRING NOT NULL, 
+                 time DATETIME NOT NULL, 
+                 amount REAL NOT NULL, 
+                 itemID INTEGER NOT NULL,
                  FOREIGN KEY (itemID) REFERENCES Item, 
                  FOREIGN KEY (bidder) REFERENCES User);
