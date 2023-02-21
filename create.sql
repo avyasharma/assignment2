@@ -1,12 +1,10 @@
-import sqlite3;
-
 drop table if exists Item;
 drop table if exists User;
 drop table if exists Category;
 drop table if exists Bid;
 
 create table Item(itemID INTEGER PRIMARY KEY, 
-                  name CHAR(30) UNIQUE, 
+                  name CHAR(30), 
                   currently REAL, 
                   buy_price REAL, 
                   first_bid REAL, 
@@ -14,10 +12,10 @@ create table Item(itemID INTEGER PRIMARY KEY,
                   started DATETIME,
                   ends DATETIME,
                   seller CHAR(30), 
-                  description CHAR(30),
+                  description TExT,
                   FOREIGN KEY (seller) REFERENCES User);
 create table User(userID STRING PRIMARY KEY, 
-                  rating REAL UNIQUE, 
+                  rating REAL, 
                   location CHAR(30), 
                   country CHAR(30));
 create table Category(itemID INTEGER, 
