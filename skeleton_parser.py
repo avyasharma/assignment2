@@ -68,6 +68,15 @@ def transformDollar(money):
         return money
     return sub(r'[^\d.]', '', money)
 
+
+"""
+Modify strings
+"""
+
+def modifyString(str):
+    new_str = str.replace('"', '""')
+    return "\"" + new_str + "\""
+               
 """
 Parses a single json file. Currently, there's a loop that iterates over each
 item in the data set. Your job is to extend this functionality to create all
@@ -89,25 +98,25 @@ def parseJson(json_file):
             try:
                 buy_price = transformDollar(item["Buy_price"])
             except KeyError:
-                buy_price = "Null"
+                buy_price = "\"Null\""
             
             item_f.write(item["ItemID"] + "|" 
-                         + item["Name"] + "|" 
+                         + modifyString(item["Name"]) + "|" 
                          + transformDollar(item["Currently"]) + "|" 
                          + transformDollar(item["First_Bid"]) + "|"
                          + buy_price + "|" 
                          + item["Number_of_Bids"] + "|" 
                          + transformDttm(item["Started"]) + "|" 
                          + transformDttm(item["Ends"]) + "|" 
-                         + item["Seller"]["UserID"] + "|" 
-                         + str(item["Description"]) + "|" 
+                         + modifyString(item["Seller"]["UserID"]) + "|" 
+                         + modifyString(str(item["Description"])) 
                          + "\n")
             
             # loading Seller data into user.dat
-            user_f.write(item["Seller"]["UserID"] + "|" 
-                         + item["Seller"]["Rating"] + "|" 
-                         + item["Location"] + "|" 
-                         + item["Country"] + "|" 
+            user_f.write(modifyString(item["Seller"]["UserID"]) + "|" 
+                         + (modifyString(str(item["Seller"]["Rating"]))) + "|" 
+                         + modifyString(item["Location"]) + "|" 
+                         + modifyString(item["Country"])  
                          + "\n")
             
             
@@ -115,30 +124,30 @@ def parseJson(json_file):
                 for bid in item["Bids"]:
                     #print(bid)
                     # loading Bid data into bid.dat
-                    bid_f.write(bid["Bid"]["Bidder"]["UserID"] + "|" 
+                    bid_f.write(modifyString(bid["Bid"]["Bidder"]["UserID"]) + "|" 
                                 + transformDttm(bid["Bid"]["Time"]) + "|" 
                                 + transformDollar(bid["Bid"]["Amount"]) + "|" 
-                                + item["ItemID"] + "|" 
+                                + item["ItemID"]  
                                 + "\n")
                 
                     # loading Bidder data into user.dat
-                    user_f.write(bid["Bid"]["Bidder"]["UserID"] + "|" 
-                                 + bid["Bid"]["Bidder"]["Rating"] + "|")
+                    user_f.write(modifyString(bid["Bid"]["Bidder"]["UserID"]) + "|" 
+                                 + modifyString(str(bid["Bid"]["Bidder"]["Rating"])))
                     
                     try: 
-                        user_f.write(bid["Bid"]["Bidder"]["Location"] + "|")
+                        user_f.write("|" + modifyString(bid["Bid"]["Bidder"]["Location"]))
                     except KeyError:
-                        user_f.write("Null|")
+                        user_f.write("\"Null\"")
                         
                     try: 
-                        user_f.write(bid["Bid"]["Bidder"]["Country"] + "|" + "\n")
+                        user_f.write("|" + modifyString(bid["Bid"]["Bidder"]["Country"]) + "\n")
                     except KeyError:
-                        user_f.write("Null|\n")
+                        user_f.write("|\"Null\"\n")
                         
             # loading Category data into category.dat
             for cat in item["Category"]:
                 cat_f.write(item["ItemID"] + "|"
-                            + cat + "|"
+                            + modifyString(cat) 
                             + "\n")
             
 
