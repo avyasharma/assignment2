@@ -1,8 +1,8 @@
 .separator |
 .import item_uniq.dat Item
-update Item set buy_price = null where buy_price = ‘Null’;
+update Item set buy_price = null where buy_price = "Null";
 .import user_uniq.dat User
-update User set location = null where location = ‘Null’;
-update User set country = null where country = ‘Null’;
+update User set location = null where location = "Null";
+update User set country = null where country = "Null";
 .import category_uniq.dat Category
-.import item_uniq.dat Bid
+.import bid_uniq.dat Bid
