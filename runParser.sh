@@ -25,9 +25,10 @@ fi
 
 python skeleton_parser.py ebay_data/items-*.json
 
-sort item.dat | uniq -u > item_uniq.dat
-sort user.dat | uniq -u > user_uniq.dat
-sort category.dat | uniq -u > category_uniq.dat
-sort bid.dat | uniq -u > bid_uniq.dat
+sort item.dat | uniq > item_uniq.dat
+sort user.dat | uniq > user_uniq.dat
+sort category.dat | uniq > category_uniq.dat
+sort bid.dat | uniq > bid_uniq.dat
 
 sqlite3 "ebaydata.db" < create.sql
+sqlite3 "ebaydata.db" < load.txt 
