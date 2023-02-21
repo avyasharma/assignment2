@@ -137,7 +137,7 @@ def parseJson(json_file):
                     try: 
                         user_f.write("|" + modifyString(bid["Bid"]["Bidder"]["Location"]))
                     except KeyError:
-                        user_f.write("\"Null\"")
+                        user_f.write("|\"Null\"")
                         
                     try: 
                         user_f.write("|" + modifyString(bid["Bid"]["Bidder"]["Country"]) + "\n")
